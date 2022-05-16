@@ -36,7 +36,7 @@ public class Map
         {
             for(int j = 0; j < grid[i].length; j++)
             {
-                if(grid[i][j].state == Tile.tileType.LIGHT) { grid[i][j].setState(Tile.tileType.EMPTY); }
+                if(grid[i][j].state == Tile.tileType.LIGHT || grid[i][j].state == Tile.tileType.CENTER) { grid[i][j].setState(Tile.tileType.EMPTY); }
             }
         }
     }
@@ -67,6 +67,16 @@ public class Map
     public int getWidth() { return width; }
     public int getHeight() { return height; }
     public Tile[][] getGrid() { return grid; }
+
+    public String deleteString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < width * height + 50; i++)
+        {
+            sb.append("\u0008");
+        }
+        return sb.toString();
+    }
 
     public void addLight(Light l) { lights.add(l); }
     public void clearLights() { lights = new ArrayList<Light>(); }

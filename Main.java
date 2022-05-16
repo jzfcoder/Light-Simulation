@@ -1,18 +1,31 @@
 import java.io.File;
 import java.io.FileWriter;
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.Scanner;
+import java.awt.MouseInfo;
+import java.awt.Toolkit;
+import java.awt.Dimension;
+import java.util.concurrent.TimeUnit;
 
 class Main
 {
+    static Map map;
+    
+    private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    static final int SCREEN_WIDTH = (int) d.getWidth();
+    static final int SCREEN_HEIGHT = (int) d.getHeight();
+
     public static void main(String[] args)
     {
         Scanner s = new Scanner(System.in);
         String in = " ";
         boolean inputCompleted = false;
-        Map map = new Map();
+        map = new Map();
 
         while(!inputCompleted)
         {
@@ -22,6 +35,12 @@ class Main
             {
                 inputCompleted = true;
                 break;
+            }
+            if(in.equals("default"))
+            {
+                runDemo();
+                s.close();
+                System.exit(1);
             }
             System.out.println("Invalid Input!");
         }
@@ -208,9 +227,7 @@ class Main
          -12  |  0
           12  |  24
            1  |  13
-              
-        */
-        /*
+
         // convert y-coord test
         System.out.println("-=Y-COORD to ARR-COORD TEST=-");
         System.out.println("Input: 0\nExpected: 12\nOutput: " + map.convertCoordYtoArrY(0) + "\n---");
@@ -246,13 +263,12 @@ class Main
             System.out.print(i + " ");
         }
         System.out.println("");
-        */
 
-
-        /* calculate point test
+        // calculate point test
         System.out.println("-=CALCULATE POINT=-");
         map.calculateLightPoint(0, 0);
-        System.out.println(map.toString()); */
+        System.out.println(map.toString());
+        */
     }
 
     public static int countSpaces(String str)
@@ -274,4 +290,43 @@ class Main
         }
         return true;
     }
+
+    public static void runDemo()
+    {
+        map = new Map(51, 51);
+        String del = map.deleteString();
+        boolean clicked = false;
+        int x = 0;
+        int y = 0;
+        /*
+        while(!clicked)
+        {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                System.exit(2);
+                e.printStackTrace();
+            }
+        */
+
+            x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
+            y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
+
+            PointLight light = new PointLight(map, 25, x, y, 36);
+
+            System.out.print(del);
+
+            System.out.print(x + " " + y); // TODO: CONVERT ARR X to COORD X
+
+            map.clearLights();
+            map.addLight(light);
+            map.clear();
+            map.simulate();
+            
+            System.out.print(map.toString());
+        //}
+    }
+
+    //private static int convertCoordXtoArrX(int coordX) { return (int) (map.getWidth() / 2) + coordX; }
+    //private static int convertCoordYtoArrY(int coordY) { return (int) (map.getHeight() / 2) - coordY; }
 }
