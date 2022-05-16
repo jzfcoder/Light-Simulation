@@ -1,16 +1,18 @@
 import java.io.File;
 import java.io.FileWriter;
-
 import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
 import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.awt.Dimension;
-import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 class Main
 {
@@ -293,40 +295,56 @@ class Main
 
     public static void runDemo()
     {
-        map = new Map(51, 51);
-        String del = map.deleteString();
+        JFrame frame = new JFrame();
+        JLabel label = new JLabel();
+        StringBuilder sb = new StringBuilder("<html>");
         boolean clicked = false;
         int x = 0;
         int y = 0;
-        /*
+
+        map.drawLine(10, 10, -10, 10);
+
+        frame.setSize(map.getWidth() * 8, map.getHeight() * 16);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLayout(new GridBagLayout());
+
+        frame.add(label);
+
+        frame.setVisible(true);
+
         while(!clicked)
         {
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                System.exit(2);
-                e.printStackTrace();
+            try { TimeUnit.SECONDS.sleep(1/2); } catch (InterruptedException e) { e.printStackTrace(); }
+            if(x != (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH
+            || y != (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT)
+            {
+                x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
+                y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
+
+                sb = new StringBuilder("<html>");
+                map.clear();
+                map.clearLights();
+                
+                map.addLight(new PointLight(map, 25, convertArrXtoCoordX(x), convertArrYtoCoordY(y), 36));
+                
+                map.simulate();
+
+                sb.append("<table border=0>");
+                for(Tile[] t : map.getGrid())
+                {
+                    sb.append("<tr>");
+                    for(Tile tile : t)
+                    {
+                        sb.append("<td align=center>").append(tile.toString()).append("</td>");
+                    }
+                    sb.append("</tr>");
+                }
+                sb.append("</table>");
+                label.setText(sb.toString());
             }
-        */
-
-            x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
-            y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
-
-            PointLight light = new PointLight(map, 25, x, y, 36);
-
-            System.out.print(del);
-
-            System.out.print(x + " " + y); // TODO: CONVERT ARR X to COORD X
-
-            map.clearLights();
-            map.addLight(light);
-            map.clear();
-            map.simulate();
-            
-            System.out.print(map.toString());
-        //}
+        }
     }
 
-    //private static int convertCoordXtoArrX(int coordX) { return (int) (map.getWidth() / 2) + coordX; }
-    //private static int convertCoordYtoArrY(int coordY) { return (int) (map.getHeight() / 2) - coordY; }
+    private static int convertArrXtoCoordX(int arrX) { return (int) (arrX - (map.getWidth() / 2)); }
+    private static int convertArrYtoCoordY(int arrY) { return - (int) (arrY - (map.getHeight() / 2)); }
 }

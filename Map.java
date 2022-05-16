@@ -36,7 +36,10 @@ public class Map
         {
             for(int j = 0; j < grid[i].length; j++)
             {
-                if(grid[i][j].state == Tile.tileType.LIGHT || grid[i][j].state == Tile.tileType.CENTER) { grid[i][j].setState(Tile.tileType.EMPTY); }
+                if(grid[i][j].state == Tile.tileType.LIGHT
+                || grid[i][j].state == Tile.tileType.CENTER
+                || grid[i][j].state == Tile.tileType.SOURCE
+                ) { grid[i][j].setState(Tile.tileType.EMPTY); }
             }
         }
     }

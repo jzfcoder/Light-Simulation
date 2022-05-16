@@ -67,23 +67,28 @@ public class PointLight extends Light
             {
                 //System.out.println("Checking between (" + prevX + ", " + prevY + ") and (" + coordX + ", " + coordY +")");
                 int botDist = (coordY - prevY) / 2;
+                int lowerX = prevY < coordY ? prevX : coordX;
+                int lowerY = prevY < coordY ? prevY : coordY;
+                int upperX = prevY < coordY ? coordX : prevX;
+                int upperY = prevY < coordY ? coordY : prevY;
+
                 for(int i = 1; i <= botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.HORIZONTAL_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.VERTICAL_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_LEFT_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_RIGHT_WALL
+                    if(grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.HORIZONTAL_WALL
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.VERTICAL_WALL
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_LEFT_WALL
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_RIGHT_WALL
                     )
                     {
                         cleared = false;
                     }
                 }
-                for(int i = 1; i <= coordY - prevY - botDist; i++)
+                for(int i = 1; i <= (upperY - lowerY) - botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(coordY - i)][convertCoordXtoArrX(coordX)].state == Tile.tileType.HORIZONTAL_WALL
-                    || grid[convertCoordYtoArrY(coordY - i)][convertCoordXtoArrX(coordX)].state == Tile.tileType.VERTICAL_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_LEFT_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_RIGHT_WALL
+                    if(grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.HORIZONTAL_WALL
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.VERTICAL_WALL
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_LEFT_WALL
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_RIGHT_WALL
                     )
                     {
                         //System.out.println("Works");
@@ -146,23 +151,28 @@ public class PointLight extends Light
             {
                 //System.out.println("Checking between (" + prevX + ", " + prevY + ") and (" + coordX + ", " + coordY +")");
                 int botDist = (coordY - prevY) / 2;
+                int lowerX = prevY < coordY ? prevX : coordX;
+                int lowerY = prevY < coordY ? prevY : coordY;
+                int upperX = prevY < coordY ? coordX : prevX;
+                int upperY = prevY < coordY ? coordY : prevY;
+
                 for(int i = 1; i <= botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.HORIZONTAL_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.VERTICAL_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_LEFT_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_RIGHT_WALL
+                    if(grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.HORIZONTAL_WALL
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.VERTICAL_WALL
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_LEFT_WALL
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_RIGHT_WALL
                     )
                     {
                         cleared = false;
                     }
                 }
-                for(int i = 1; i <= coordY - prevY - botDist; i++)
+                for(int i = 1; i <= (upperY - lowerY) - botDist; i++)
                 {
-                    if((grid[convertCoordYtoArrY(coordY - i)][convertCoordXtoArrX(coordX)].state == Tile.tileType.HORIZONTAL_WALL)
-                    || grid[convertCoordYtoArrY(coordY - i)][convertCoordXtoArrX(coordX)].state == Tile.tileType.VERTICAL_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_LEFT_WALL
-                    || grid[convertCoordYtoArrY(prevY + i)][convertCoordXtoArrX(prevX)].state == Tile.tileType.SLANT_RIGHT_WALL
+                    if(grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.HORIZONTAL_WALL
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.VERTICAL_WALL
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_LEFT_WALL
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_RIGHT_WALL
                     )
                     {
                         //System.out.println("Works");

@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch jTable",
+            "request": "launch",
+            "mainClass": "jTable",
+            "projectName": "pointLight_d14e32f3"
+        },
+        {
+            "type": "java",
+            "name": "Launch playground",
+            "request": "launch",
+            "mainClass": "playground",
+            "projectName": "pointLight_d14e32f3"
+        },
+        {
+            "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "Main",
