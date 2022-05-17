@@ -31,7 +31,7 @@ public class PointLight extends Light
         return g;
     }
 
-    public Tile[][] drawRay(int angle, int x, int y, Tile[][] grid)
+    private Tile[][] drawRay(int angle, int x, int y, Tile[][] grid)
     {
         // takes in angle in degrees, and start point (coordinate plane)
         // slope = rise / run
@@ -74,7 +74,8 @@ public class PointLight extends Light
 
                 for(int i = 1; i <= botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.HORIZONTAL_WALL
+                    if(convertCoordYtoArrY(lowerY + i) <= 0
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.HORIZONTAL_WALL
                     || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.VERTICAL_WALL
                     || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_LEFT_WALL
                     || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_RIGHT_WALL
@@ -85,7 +86,8 @@ public class PointLight extends Light
                 }
                 for(int i = 1; i <= (upperY - lowerY) - botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.HORIZONTAL_WALL
+                    if(convertCoordYtoArrY(upperY - i) >= map.getHeight()
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.HORIZONTAL_WALL
                     || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.VERTICAL_WALL
                     || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_LEFT_WALL
                     || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_RIGHT_WALL
@@ -158,7 +160,8 @@ public class PointLight extends Light
 
                 for(int i = 1; i <= botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.HORIZONTAL_WALL
+                    if(convertCoordYtoArrY(lowerY + i) <= 0
+                    || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.HORIZONTAL_WALL
                     || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.VERTICAL_WALL
                     || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_LEFT_WALL
                     || grid[convertCoordYtoArrY(lowerY + i)][convertCoordXtoArrX(lowerX)].state == Tile.tileType.SLANT_RIGHT_WALL
@@ -169,7 +172,8 @@ public class PointLight extends Light
                 }
                 for(int i = 1; i <= (upperY - lowerY) - botDist; i++)
                 {
-                    if(grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.HORIZONTAL_WALL
+                    if(convertCoordYtoArrY(upperY - i) >= map.getHeight()
+                    || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.HORIZONTAL_WALL
                     || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.VERTICAL_WALL
                     || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_LEFT_WALL
                     || grid[convertCoordYtoArrY(upperY - i)][convertCoordXtoArrX(upperX)].state == Tile.tileType.SLANT_RIGHT_WALL

@@ -38,11 +38,17 @@ class Main
                 inputCompleted = true;
                 break;
             }
-            if(in.equals("default"))
+            if(in.equals("point"))
             {
-                runDemo();
+                runPointDemo();
                 s.close();
-                System.exit(1);
+                System.exit(0);
+            }
+            if(in.equals("ray"))
+            {
+                runRayDemo();
+                s.close();
+                System.exit(0);
             }
             System.out.println("Invalid Input!");
         }
@@ -293,7 +299,7 @@ class Main
         return true;
     }
 
-    public static void runDemo()
+    public static void runPointDemo()
     {
         JFrame frame = new JFrame();
         JLabel label = new JLabel();
@@ -341,6 +347,72 @@ class Main
                 }
                 sb.append("</table>");
                 label.setText(sb.toString());
+            }
+        }
+    }
+
+    public static void runRayDemo()
+    {
+        JFrame frame = new JFrame();
+        JLabel label = new JLabel();
+        StringBuilder sb = new StringBuilder("<html>");
+        boolean clicked = false;
+        int x = 0;
+        int y = 0;
+
+        map.drawLine(10, 10, -10, 10);
+
+        frame.setSize(map.getWidth() * 8, map.getHeight() * 16);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLayout(new GridBagLayout());
+
+        frame.add(label);
+
+        frame.setVisible(true);
+
+        while(!clicked)
+        {
+            try { TimeUnit.SECONDS.sleep(1/2); } catch (InterruptedException e) { e.printStackTrace(); }
+            if(x != (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH
+            || y != (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT)
+            {
+                //x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
+                //y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
+
+                x = (int) MouseInfo.getPointerInfo().getLocation().getX();
+                y = (int) MouseInfo.getPointerInfo().getLocation().getY();
+
+                int angle = 0;
+                if(x == 0) { angle = 0; }
+                else if(y == 0 && x < 0) { angle = 180; }
+                else if(y == 0 && x > 0) { angle = 0; }
+                else
+                {
+                    angle = (int) Math.toDegrees(Math.atan((- (y - (SCREEN_HEIGHT / 2) + 1)) / (x - (SCREEN_WIDTH / 2))));
+                }
+
+                label.setText(angle + "");
+                /*
+                sb = new StringBuilder("<html>");
+                map.clear();
+                map.clearLights();
+                
+                map.addLight(new DirectionalRay(map, 25, 0, 0, angle, 7));
+                
+                map.simulate();
+
+                sb.append("<table border=0>");
+                for(Tile[] t : map.getGrid())
+                {
+                    sb.append("<tr>");
+                    for(Tile tile : t)
+                    {
+                        sb.append("<td align=center>").append(tile.toString()).append("</td>");
+                    }
+                    sb.append("</tr>");
+                }
+                sb.append("</table>");
+                label.setText(sb.toString()); */
             }
         }
     }
