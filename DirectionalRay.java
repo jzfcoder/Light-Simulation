@@ -2,11 +2,11 @@ public class DirectionalRay extends Light
 {
     int angle;
     int width;
+    int[][] sources;
+
     public DirectionalRay(Map m, int s)
     {
-        super(m, s);
-        angle = 45;
-        width = 3;
+        this(m, s, 0, 0, 45, 3);
     }
 
     public DirectionalRay(Map m, int s, int x, int y, int a, int w)
@@ -14,6 +14,43 @@ public class DirectionalRay extends Light
         super(m, s, x, y);
         angle = a;
         width = w;
+        
+        sources = new int[width][2];
+
+        // (angle > 0 ? (angle <= 45 ? 45 : (angle <= 90 ? 90 : angle <= 135 ? 135 : 180)) : (angle <= 0 ? (angle > -45 ? 0 : (angle > -90 ? -45 : (angle > -135 ? -90 : (angle > -180 ? -135 : 180)))) : 90))
+
+        for(int i = 0; i <= (int) width / 2; i++)
+        {
+            sources[i][0] = x + i;
+            sources[i][1] = ((int) (Math.tan(Math.toRadians(((angle > 0 ?
+            (angle <= 45 ? 45 :
+            (angle <= 90 ? 90 : 
+            (angle <= 135 ? 135 : 180))) :
+
+            (angle <= 0 ? (angle > -45 ? 0 :
+            (angle > -90 ? -45 :
+            (angle > -135 ? -90 :
+            (angle > -180 ? -135 : 180)))) :
+            90))) + 90)) + 0.5)) * (x - i);
+        }
+        for(int i = 1; i < width / 2; i++)
+        {
+            sources[(width / 2) + i][0] = x - i;
+            sources[(width / 2) + i][1] = ((int) (Math.tan(Math.toRadians(((angle > 0 ?
+            (angle <= 45 ? 45 :
+            (angle <= 90 ? 90 : 
+            (angle <= 135 ? 135 : 180))) :
+
+            (angle <= 0 ? (angle > -45 ? 0 :
+            (angle > -90 ? -45 :
+            (angle > -135 ? -90 :
+            (angle > -180 ? -135 : 180)))) :
+            90))) + 90)) + 0.5)) * (x + i);
+        }
+        for(int[] pairs : sources)
+        {
+            System.out.println(pairs[0] + ", " + pairs[1]);
+        }
     }
 
     public Tile[][] simulate() { return simulate(map); }
@@ -21,13 +58,9 @@ public class DirectionalRay extends Light
     public Tile[][] simulate(Map m)
     {
         Tile[][] g = grid;
-        for(int i = 0; i <= width / 2; i++)
+        for(int[] point : sources)
         {
-            g = drawRay(angle, super.getCoordx(), super.getCoordy() + i, grid);
-        }
-        for(int i = 1; i <= width / 2; i++)
-        {
-            g = drawRay(angle, super.getCoordx(), super.getCoordy() - i, grid);
+            g = drawRay(angle, point[0], point[1], grid);
         }
 
         return g;
@@ -51,6 +84,7 @@ public class DirectionalRay extends Light
         nextTile.state = Tile.tileType.SOURCE;
         
         // QUADRANT #1 & #4
+        
         if (angle <= 90 && angle >= -90)
         {
             double rayDist = 0.0;

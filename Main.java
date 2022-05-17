@@ -357,8 +357,8 @@ class Main
         JLabel label = new JLabel();
         StringBuilder sb = new StringBuilder("<html>");
         boolean clicked = false;
-        int x = 0;
-        int y = 0;
+        double x = 0;
+        double y = 0;
 
         map.drawLine(10, 10, -10, 10);
 
@@ -379,20 +379,16 @@ class Main
                 //x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
                 //y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
 
-                x = (int) MouseInfo.getPointerInfo().getLocation().getX();
-                y = (int) MouseInfo.getPointerInfo().getLocation().getY();
+                x = convertScreenXtoCoordX(MouseInfo.getPointerInfo().getLocation().getX());
+                y = convertScreenYtoCoordY(MouseInfo.getPointerInfo().getLocation().getY());
 
-                int angle = 0;
-                if(x == 0) { angle = 0; }
-                else if(y == 0 && x < 0) { angle = 180; }
-                else if(y == 0 && x > 0) { angle = 0; }
-                else
-                {
-                    angle = (int) Math.toDegrees(Math.atan((- (y - (SCREEN_HEIGHT / 2) + 1)) / (x - (SCREEN_WIDTH / 2))));
-                }
+                // p1: (0, 0)
+                // p2: (10, 0)
+                // p3: (x, y)
 
-                label.setText(angle + "");
-                /*
+                int angle = (int) Math.toDegrees(Math.atan2(y - 0.0, x - 0.0) - Math.atan2(10 - 0, 0));
+                angle += 90;
+
                 sb = new StringBuilder("<html>");
                 map.clear();
                 map.clearLights();
@@ -412,11 +408,15 @@ class Main
                     sb.append("</tr>");
                 }
                 sb.append("</table>");
-                label.setText(sb.toString()); */
+                label.setText(sb.toString());
             }
+            clicked = true;
         }
+        try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
     }
 
     private static int convertArrXtoCoordX(int arrX) { return (int) (arrX - (map.getWidth() / 2)); }
     private static int convertArrYtoCoordY(int arrY) { return - (int) (arrY - (map.getHeight() / 2)); }
+    private static double convertScreenXtoCoordX(double sX) { return (sX - (SCREEN_WIDTH / 2)); }
+    private static double convertScreenYtoCoordY(double sY) { return - (sY - (SCREEN_HEIGHT / 2)); }
 }

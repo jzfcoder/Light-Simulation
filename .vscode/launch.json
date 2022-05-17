@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch playground",
+            "request": "launch",
+            "mainClass": "playground",
+            "projectName": "lightSimulation_b8c1c491"
+        },
+        {
+            "type": "java",
             "name": "Launch jTable",
             "request": "launch",
             "mainClass": "jTable",
