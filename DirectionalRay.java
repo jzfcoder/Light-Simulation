@@ -18,38 +18,43 @@ public class DirectionalRay extends Light
         sources = new int[width][2];
 
         // (angle > 0 ? (angle <= 45 ? 45 : (angle <= 90 ? 90 : angle <= 135 ? 135 : 180)) : (angle <= 0 ? (angle > -45 ? 0 : (angle > -90 ? -45 : (angle > -135 ? -90 : (angle > -180 ? -135 : 180)))) : 90))
+        int temp = (angle > 0 ?
+        (angle <= 45 ? 45 :
+        (angle <= 90 ? 90 : 
+        (angle <= 135 ? 135 : 180))) :
 
-        for(int i = 0; i <= (int) width / 2; i++)
+        (angle <= 0 ? (angle > -45 ? 0 :
+        (angle > -90 ? -45 :
+        (angle > -135 ? -90 :
+        (angle > -180 ? -135 : 180)))) :
+        90));
+
+        for(int i = 0; i <= (int) 5 / 2; i++)
         {
-            sources[i][0] = x + i;
-            sources[i][1] = ((int) (Math.tan(Math.toRadians(((angle > 0 ?
-            (angle <= 45 ? 45 :
-            (angle <= 90 ? 90 : 
-            (angle <= 135 ? 135 : 180))) :
-
-            (angle <= 0 ? (angle > -45 ? 0 :
-            (angle > -90 ? -45 :
-            (angle > -135 ? -90 :
-            (angle > -180 ? -135 : 180)))) :
-            90))) + 90)) + 0.5)) * (x - i);
+            if(temp == 0 || temp == 180)
+            {
+                // pursuing line of 90 deg
+                sources[i][0] = x;
+                sources[i][1] = y + i;
+            }
+            else
+            {
+                sources[i][0] = x + i;
+                sources[i][1] = ((int) (Math.tan(Math.toRadians(temp + 90)) + ((Math.tan(Math.toRadians(temp + 90)) < 0) ? - 0.5 : 0.5)) * ((x + i) - x)) + y;
+            }
         }
-        for(int i = 1; i < width / 2; i++)
+        for(int i = 1; i <= 5 / 2; i++)
         {
-            sources[(width / 2) + i][0] = x - i;
-            sources[(width / 2) + i][1] = ((int) (Math.tan(Math.toRadians(((angle > 0 ?
-            (angle <= 45 ? 45 :
-            (angle <= 90 ? 90 : 
-            (angle <= 135 ? 135 : 180))) :
-
-            (angle <= 0 ? (angle > -45 ? 0 :
-            (angle > -90 ? -45 :
-            (angle > -135 ? -90 :
-            (angle > -180 ? -135 : 180)))) :
-            90))) + 90)) + 0.5)) * (x + i);
-        }
-        for(int[] pairs : sources)
-        {
-            System.out.println(pairs[0] + ", " + pairs[1]);
+            if(temp == 0 || temp == 180)
+            {
+                sources[(5 / 2) + i][0] = x;
+                sources[(5 / 2) + i][1] = y - i;
+            }
+            else
+            {
+                sources[(5 / 2) + i][0] = x - i;
+                sources[(5 / 2) + i][1] = ((int) (Math.tan(Math.toRadians(temp + 90)) + ((Math.tan(Math.toRadians(temp + 90)) < 0) ? - 0.5 : 0.5)) * ((x - i) + x)) + y;
+            }
         }
     }
 
@@ -84,7 +89,7 @@ public class DirectionalRay extends Light
         nextTile.state = Tile.tileType.SOURCE;
         
         // QUADRANT #1 & #4
-        
+        if(angle > 90 || angle < -90) { angle += angle > 90 ? -180 : 180; }
         if (angle <= 90 && angle >= -90)
         {
             double rayDist = 0.0;

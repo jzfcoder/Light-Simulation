@@ -410,7 +410,6 @@ class Main
                 sb.append("</table>");
                 label.setText(sb.toString());
             }
-            clicked = true;
         }
         try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
     }
