@@ -1,3 +1,9 @@
+/**
+ * Directional Ray draws a ray from given point
+ * The ray has an angle, and a set width
+ * The arrangement of light sources is near perpendicular to angle 
+ */
+
 public class DirectionalRay extends Light
 {
     int angle;
@@ -22,12 +28,10 @@ public class DirectionalRay extends Light
         (angle <= 45 ? 45 :
         (angle <= 90 ? 90 : 
         (angle <= 135 ? 135 : 180))) :
-
         (angle <= 0 ? (angle > -45 ? 0 :
         (angle > -90 ? -45 :
         (angle > -135 ? -90 :
-        (angle > -180 ? -135 : 180)))) :
-        90));
+        (angle > -180 ? -135 : 180)))) : 90));
 
         for(int i = 0; i <= (int) 5 / 2; i++)
         {
@@ -47,6 +51,7 @@ public class DirectionalRay extends Light
         {
             if(temp == 0 || temp == 180)
             {
+                // pursuing line of 90 deg
                 sources[(5 / 2) + i][0] = x;
                 sources[(5 / 2) + i][1] = y - i;
             }
@@ -60,6 +65,12 @@ public class DirectionalRay extends Light
 
     public Tile[][] simulate() { return simulate(map); }
 
+    /**
+     * Overrides Light's simulate method
+     * loops through each x/y pair in sources and draws a ray at point
+     * @param m Map that is simulated on
+     * @return returns the modified grid
+     */
     public Tile[][] simulate(Map m)
     {
         Tile[][] g = grid;
@@ -71,13 +82,20 @@ public class DirectionalRay extends Light
         return g;
     }
 
+    /**
+     * Draws a ray at given point and angle, on modified grid
+     * Iterates through each position and negative x, calculating
+     * y from x & angle
+     * Continues to iterate, until wall, edge, or strength is reached
+     * Returns the modified grid with the ray
+     * @param angle int angle of the ray
+     * @param x int coordinate x source of the ray
+     * @param y int coordinate y source of the ray
+     * @param grid Tile[][] grid that is modified
+     * @return returns a grid with the ray added
+     */
     private Tile[][] drawRay(int angle, int x, int y, Tile[][] grid)
     {
-        // takes in angle in degrees, and start point (coordinate plane)
-        // slope = rise / run
-        // how to find slope from angle?
-        // tan(angle) = opp / adjacent = rise / run
-        // y = (rounded) tan(angle) * x
         
         int coordX = x;
         int coordY = y;
@@ -263,6 +281,8 @@ public class DirectionalRay extends Light
         }
         return grid;
     }
+
+    public void setAngle(int a) { angle = a; }
 
     private int convertCoordXtoArrX(int coordX) { return (int) (map.getWidth() / 2) + coordX; }
     private int convertCoordYtoArrY(int coordY) { return (int) (map.getHeight() / 2) - coordY; }

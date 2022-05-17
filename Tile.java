@@ -1,3 +1,10 @@
+/**
+ * Mainly for visualization purposes
+ * The main component in the Map grid[][]
+ * Their state is used to determine the behaviour
+ * of the light simulation
+ */
+
 public class Tile {
     tileType state;
 
@@ -6,6 +13,9 @@ public class Tile {
         state = tileType.EMPTY;
     }
     
+    /**
+     * @return returns String depending on Tile's state
+     */
     public String toString()
     {
         switch(state)

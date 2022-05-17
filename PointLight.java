@@ -1,3 +1,9 @@
+/**
+ * PointLight draws multiple rays at different angles from 
+ * the same point
+ * Light complexity determines how many rays are drawn
+ */
+
 public class PointLight extends Light
 {
     private int lightComplexity;
@@ -15,11 +21,17 @@ public class PointLight extends Light
         angles = findRayDegrees(lightComplexity);
     }
 
+    /**
+     * runs simulate with default map
+     */
     public Tile[][] simulate()
     {
         return simulate(map);
     }
 
+    /**
+     * loops through each angle which are determined in findRayDegrees
+     */
     public Tile[][] simulate(Map m)
     {
         Tile[][] g = grid;
@@ -31,6 +43,18 @@ public class PointLight extends Light
         return g;
     }
 
+    /**
+     * Draws a ray at given point and angle, on modified grid
+     * Iterates through each position and negative x, calculating
+     * y from x & angle
+     * Continues to iterate, until wall, edge, or strength is reached
+     * Returns the modified grid with the ray
+     * @param angle int angle of the ray
+     * @param x int coordinate x source of the ray
+     * @param y int coordinate y source of the ray
+     * @param grid Tile[][] grid that is modified
+     * @return returns a grid with the ray added
+     */
     private Tile[][] drawRay(int angle, int x, int y, Tile[][] grid)
     {
         // takes in angle in degrees, and start point (coordinate plane)
@@ -226,6 +250,11 @@ public class PointLight extends Light
     private int convertCoordXtoArrX(int coordX) { return (int) (map.getWidth() / 2) + coordX; }
     private int convertCoordYtoArrY(int coordY) { return (int) (map.getHeight() / 2) - coordY; }
 
+    /**
+     * Calculates evenly spaced angles depending on light complexity
+     * @param c int constant for light complexity
+     * @return returns an int[] array of each angle, spaced depending on light complexity
+     */
     private int[] findRayDegrees(int c)
     {
         int constant = 180 / c;

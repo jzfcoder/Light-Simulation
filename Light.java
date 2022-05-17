@@ -1,3 +1,9 @@
+/**
+ * Parent class for all Light types
+ * Saves important data needed for both children;
+ * PointLight and Directional Ray
+ */
+
 public class Light {
     int strength;
 
@@ -37,7 +43,15 @@ public class Light {
         return simulate(map);
     }
 
+    /**
+     * Simulates light on map and returns grid
+     * @param m map
+     * @return returns modified grid
+     */
     public Tile[][] simulate(Map m) { return grid; }
+
+    public void setCoordX(int x) { xCoordPosition = x; }
+    public void setCoordY(int y) { yCoordPosition = y; }
 
     Tile[][] getGrid() { return map.getGrid(); }
     int getCoordx(){ return xCoordPosition; }

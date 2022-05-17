@@ -1,3 +1,13 @@
+/** 
+ * Map class holds a 2D array of tiles
+ * 
+ * Manages all objects present within the grid, including
+ * walls and lights
+ * 
+ * Is also responsible for simulating
+*/
+
+
 import java.util.ArrayList;
 
 public class Map
@@ -30,6 +40,9 @@ public class Map
         this(51, 51);
     }
 
+    /**
+    * clears grid of all Light-based tiles
+    */
     public void clear()
     {
         for(int i = 0; i < grid.length; i++)
@@ -44,6 +57,9 @@ public class Map
         }
     }
 
+    /**
+    * simulates all lights in "lights" ArrayList
+    */
     public void simulate()
     {
         for(Light light : lights)
@@ -52,6 +68,9 @@ public class Map
         }
     }
 
+    /**
+     * converts 2D grid to String by getting each tile's toString
+     */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -71,6 +90,11 @@ public class Map
     public int getHeight() { return height; }
     public Tile[][] getGrid() { return grid; }
 
+    /**
+     * returns a string of multiple "backspaces" in unicode; sufficient in 
+     * deleting the entire toString()
+     * @return String of unicode backspaces to remove object's toString
+     */
     public String deleteString()
     {
         StringBuilder sb = new StringBuilder();
@@ -81,11 +105,29 @@ public class Map
         return sb.toString();
     }
 
+    /**
+     * Adds given light to lights array, can be Point Light or Directional Ray
+     * @param l Light is the Light object added to the lights array
+     */
     public void addLight(Light l) { lights.add(l); }
+
+    /**
+     * clears all lights in lights
+     */
     public void clearLights() { lights = new ArrayList<Light>(); }
 
+    /**
+     * Draws line on grid; sets all tiles within given points to WALL
+     * lines supported are vertical, horizontal, and slope 1 slant
+     * @param x1 int coordinate x of first point
+     * @param y1 int coordinate y of first point
+     * @param x2 int coordinate x of second point
+     * @param y2 int coordinate y of second point
+     * @return true if it successfully added to array, false if not
+     */
     public boolean drawLine(int x1, int y1, int x2, int y2)
     {
+        try {
         if(x1 == x2)
         {
             for(int i = y1 < y2 ? y1 : y2; i <= (y1 < y2 ? y2 : y1); i++)
@@ -147,7 +189,7 @@ public class Map
         else
         {
             return false;
-        }
+        }} catch (IndexOutOfBoundsException e) { return false; }
     }
 
     private int convertCoordXtoArrX(int coordX) { return (int) (width / 2) + coordX; }

@@ -1,3 +1,15 @@
+/**
+* Main class that runs programs
+* Gets user input and either prints custom map to .txt or
+* runs a realtime mouse-input based simulation
+*
+* Uses Map, Point Light, and Directional Ray
+*
+* @author Jeremy Flint
+* @since 05/08/2022
+*/
+
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,6 +41,7 @@ class Main
         boolean inputCompleted = false;
         map = new Map();
 
+        // get user input for map dimensions
         while(!inputCompleted)
         {
             System.out.println("Enter Map Dimensions (width & height separated by a space): ");
@@ -38,21 +51,10 @@ class Main
                 inputCompleted = true;
                 break;
             }
-            if(in.equals("point"))
-            {
-                runPointDemo();
-                s.close();
-                System.exit(0);
-            }
-            if(in.equals("ray"))
-            {
-                runRayDemo();
-                s.close();
-                System.exit(0);
-            }
             System.out.println("Invalid Input!");
         }
 
+        // attempt to parse
         try {
             int width = Integer.parseInt(in.substring(0, in.indexOf(" ")));
             int height = Integer.parseInt(in.substring(in.indexOf(" ") + 1));
@@ -64,8 +66,70 @@ class Main
             s.close();
             System.exit(1);
         }
-        
-        
+
+        // get user input for walls
+        inputCompleted = false;
+        for(int i = 0; !inputCompleted; i++)
+        {
+            System.out.println("Would you like to add" + (i == 0 ? " a " : " another ") + "wall to your Map? Y/N: ");
+            in = s.nextLine();
+            if(in.length() == 1 && (in.toLowerCase().equals("y") || in.toLowerCase().equals("n")))
+            {
+                if(in.toLowerCase().equals("n")) { inputCompleted = true; break; }
+                System.out.println("List first x/y position and second x/y position (space separated): ");
+                in = s.nextLine();
+                int x1 = 10;
+                int y1 = 10;
+                int x2 = -10;
+                int y2 = 10;
+                if(countSpaces(in) == 3 && isNumbersAndSpaces(in))
+                {
+                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(in.split(" ")));
+                    x1 = Integer.parseInt(list.get(0));
+                    y1 = Integer.parseInt(list.get(1));
+                    x2 = Integer.parseInt(list.get(2));
+                    y2 = Integer.parseInt(list.get(3));
+                    
+                    if( map.drawLine(x1, y1, x2, y2)) { System.out.println("Added!"); }
+                    else { System.out.println("Unable to add wall; invalid points (Points must form a vertical, horizontal, or slope = 1 line)"); }
+                }
+                else { System.out.println("Invalid Input!"); }
+            }
+        }
+
+        // get user input for text/realtime sim
+        inputCompleted = false;
+        while(!inputCompleted)
+        {
+            System.out.println("Would you like to run a realtime point/ray simulation or print? point/ray/print:");
+            in = s.nextLine();
+            if(in.toLowerCase().equals("point"))
+            {
+                System.out.println("List strength and light complexity (space separated): ");
+                in = s.nextLine();
+                if(countSpaces(in) == 1 && isNumbersAndSpaces(in))
+                {
+                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(in.split(" ")));
+                    runPointDemo(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+                }
+                else { System.out.println("Invalid Input!"); }
+            }
+            else if(in.toLowerCase().equals("ray"))
+            {
+                System.out.println("List strength and width (space separated): ");
+                in = s.nextLine();
+                if(countSpaces(in) == 1 && isNumbersAndSpaces(in))
+                {
+                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(in.split(" ")));
+                    runRayDemo(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)));
+                }
+                else { System.out.println("Invalid Input!"); }
+            }
+            else if(in.toLowerCase().equals("print")) { inputCompleted = true; break; }
+            else { System.out.println("Invalid Input!"); }
+        }
+
+        // get user input for light specifications
         inputCompleted = false;
         for(int i = 0; !inputCompleted; i++)
         {
@@ -73,7 +137,7 @@ class Main
             in = s.nextLine();
             if(in.length() == 1 && (in.toLowerCase().equals("y") || in.toLowerCase().equals("n")))
             {
-                if(in.toLowerCase().equals("n")) { break; }
+                if(in.toLowerCase().equals("n")) { inputCompleted = true; break; }
 
                 System.out.println("What kind of light? Point/Ray: ");
                 in = s.nextLine();
@@ -131,38 +195,11 @@ class Main
             else { System.out.println("Invalid Input!"); }
         }
 
-        for(int i = 0; !inputCompleted; i++)
-        {
-            System.out.println("Would you like to add" + (i == 0 ? " a " : " another ") + "wall to your Map? Y/N: ");
-            in = s.nextLine();
-            if(in.length() == 1 && (in.toLowerCase().equals("y") || in.toLowerCase().equals("n")))
-            {
-                if(in.toLowerCase().equals("n")) { break; }
-                System.out.println("List first x/y position and second x/y position (space separated): ");
-                in = s.nextLine();
-                int x1 = 10;
-                int y1 = 10;
-                int x2 = -10;
-                int y2 = 10;
-                if(countSpaces(in) == 3 && isNumbersAndSpaces(in))
-                {
-                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(in.split(" ")));
-                    x1 = Integer.parseInt(list.get(0));
-                    y1 = Integer.parseInt(list.get(1));
-                    x2 = Integer.parseInt(list.get(2));
-                    y2 = Integer.parseInt(list.get(3));
-                    
-                    if(map.drawLine(x1, y1, x2, y2)) { System.out.println("Added!"); }
-                    else { System.out.println("Unable to add wall; invalid points (Points must form a vertical, horizontal, or slope = 1 line)"); }
-                }
-                else { System.out.println("Invalid Input!"); }
-            }
-        }
-
         map.simulate();
 
         System.out.println(map.toString());
 
+        // get user input for saving to .txt or exiting program
         while(!inputCompleted)
         {
             System.out.println("Would you like to save this to a file? Y/N");
@@ -177,6 +214,7 @@ class Main
                     myWriter.write(map.toString());
                     myWriter.close();
                     System.out.println("Saved!");
+                    inputCompleted = true;
                     break;
                 } catch (IOException e)
                 {
@@ -279,27 +317,14 @@ class Main
         */
     }
 
-    public static int countSpaces(String str)
-    {
-        int count = 0;
-        for(int i = 0; i < str.length(); i++)
-        {
-            if(str.substring(i, i + 1).equals(" ")) { count++; }
-        }
-        return count;
-    }
-
-    public static boolean isNumbersAndSpaces(String str)
-    {
-        for(int i = 0; i < str.length(); i++)
-        {
-            if(str.charAt(i) == ' ' || Character.isDigit(str.charAt(i)) || str.charAt(i) == '-') { }
-            else { return false; }
-        }
-        return true;
-    }
-
-    public static void runPointDemo()
+    /**
+     * creates a JFrame and pointlight object
+     * Tracks mouse x/y position and translates screenspace relative position
+     * into arrayspace relative position for the source of the pointlight
+     * @param s int to determine strength of light
+     * @param l int to determine light complexity of light
+     */
+    public static void runPointDemo(int s, int l)
     {
         JFrame frame = new JFrame();
         JLabel label = new JLabel();
@@ -307,12 +332,10 @@ class Main
         boolean clicked = false;
         int x = 0;
         int y = 0;
-
-        map.drawLine(10, 10, -10, 10);
+        PointLight curLight = new PointLight(map, s, convertArrXtoCoordX(x), convertArrYtoCoordY(y), l);
 
         frame.setSize(map.getWidth() * 8, map.getHeight() * 16);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.setLayout(new GridBagLayout());
 
         frame.add(label);
 
@@ -331,7 +354,9 @@ class Main
                 map.clear();
                 map.clearLights();
                 
-                map.addLight(new PointLight(map, 25, convertArrXtoCoordX(x), convertArrYtoCoordY(y), 36));
+                curLight.setCoordX(convertArrXtoCoordX(x));
+                curLight.setCoordY(convertArrYtoCoordY(y));
+                map.addLight(curLight);
                 
                 map.simulate();
 
@@ -351,7 +376,14 @@ class Main
         }
     }
 
-    public static void runRayDemo()
+    /**
+     * creates a JFrame and directional ray object at 0, 0
+     * Tracks mouse x/y position and determines angle relative to screenspace 0, 0
+     * Sets the directional ray's angle to angle determined
+     * @param s int strength of ray
+     * @param w int width of ray
+     */
+    public static void runRayDemo(int s, int w)
     {
         JFrame frame = new JFrame();
         JLabel label = new JLabel();
@@ -376,9 +408,6 @@ class Main
             if(x != (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH
             || y != (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT)
             {
-                //x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
-                //y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
-
                 x = convertScreenXtoCoordX(MouseInfo.getPointerInfo().getLocation().getX());
                 y = convertScreenYtoCoordY(MouseInfo.getPointerInfo().getLocation().getY());
 
@@ -393,7 +422,7 @@ class Main
                 map.clear();
                 map.clearLights();
                 
-                map.addLight(new DirectionalRay(map, 25, 0, 0, angle, 7));
+                map.addLight(new DirectionalRay(map, s, 0, 0, angle, w));
                 
                 map.simulate();
 
@@ -412,6 +441,38 @@ class Main
             }
         }
         try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
+    }
+
+    /**
+     * counts num of spaces in given string
+     * used to verify input
+     * @param str input string
+     * @return returns num of spaces in string
+     */
+    private static int countSpaces(String str)
+    {
+        int count = 0;
+        for(int i = 0; i < str.length(); i++)
+        {
+            if(str.substring(i, i + 1).equals(" ")) { count++; }
+        }
+        return count;
+    }
+
+    /**
+     * ensures each character is valid for number-based input
+     * used to verify input
+     * @param str input string
+     * @return returns true or false depending on if input is valid
+     */
+    private static boolean isNumbersAndSpaces(String str)
+    {
+        for(int i = 0; i < str.length(); i++)
+        {
+            if(str.charAt(i) == ' ' || Character.isDigit(str.charAt(i)) || str.charAt(i) == '-') { }
+            else { return false; }
+        }
+        return true;
     }
 
     private static int convertArrXtoCoordX(int arrX) { return (int) (arrX - (map.getWidth() / 2)); }
