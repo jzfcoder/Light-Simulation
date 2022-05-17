@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /** 
  * Map class holds a 2D array of tiles
  * 
@@ -6,10 +8,6 @@
  * 
  * Is also responsible for simulating
 */
-
-
-import java.util.ArrayList;
-
 public class Map
 {
     private Tile[][] grid;

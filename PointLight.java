@@ -3,7 +3,6 @@
  * the same point
  * Light complexity determines how many rays are drawn
  */
-
 public class PointLight extends Light
 {
     private int lightComplexity;

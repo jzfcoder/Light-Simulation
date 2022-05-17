@@ -4,7 +4,6 @@
  * Their state is used to determine the behaviour
  * of the light simulation
  */
-
 public class Tile {
     tileType state;
 

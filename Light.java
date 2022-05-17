@@ -3,7 +3,6 @@
  * Saves important data needed for both children;
  * PointLight and Directional Ray
  */
-
 public class Light {
     int strength;
 

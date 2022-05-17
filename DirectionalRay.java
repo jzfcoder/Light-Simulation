@@ -3,7 +3,6 @@
  * The ray has an angle, and a set width
  * The arrangement of light sources is near perpendicular to angle 
  */
-
 public class DirectionalRay extends Light
 {
     int angle;

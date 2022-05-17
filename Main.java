@@ -1,15 +1,3 @@
-/**
-* Main class that runs programs
-* Gets user input and either prints custom map to .txt or
-* runs a realtime mouse-input based simulation
-*
-* Uses Map, Point Light, and Directional Ray
-*
-* @author Jeremy Flint
-* @since 05/08/2022
-*/
-
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,6 +14,16 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+/**
+* Main class that runs programs
+* Gets user input and either saves custom map + light to .txt or
+* runs a realtime mouse-input based simulation
+*
+* Uses Map, Point Light, and Directional Ray
+*
+* @author Jeremy Flint
+* @since 05/08/2022
+*/
 class Main
 {
     static Map map;
