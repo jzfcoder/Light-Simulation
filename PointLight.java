@@ -62,15 +62,27 @@ public class PointLight extends Light
         // tan(angle) = opp / adjacent = rise / run
         // y = (rounded) tan(angle) * x
         
+        // calculate each x above start pos
+        Tile nextTile = grid[convertCoordYtoArrY(y)][convertCoordXtoArrX(x)];
+        if(nextTile.state == Tile.tileType.HORIZONTAL_WALL
+        || nextTile.state == Tile.tileType.SLANT_LEFT_WALL
+        || nextTile.state == Tile.tileType.SLANT_RIGHT_WALL
+        )
+        {
+            y--;
+        }
+        if(nextTile.state == Tile.tileType.VERTICAL_WALL)
+        {
+            x--;
+        }
+        nextTile = grid[convertCoordYtoArrY(y)][convertCoordXtoArrX(x)];
+        nextTile.state = Tile.tileType.SOURCE;
+        
         int coordX = x;
         int coordY = y;
         int prevX = x;
         int prevY = y;
 
-        // calculate each x above start pos
-        Tile nextTile = grid[convertCoordYtoArrY(y)][convertCoordXtoArrX(x)];
-        nextTile.state = Tile.tileType.SOURCE;
-        
         // QUADRANT #1 & #4
         if (angle <= 90 && angle >= -90)
         {
