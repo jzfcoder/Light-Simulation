@@ -2,6 +2,7 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 
+/** Class used for experimenting w/ functions and libraries */
 public class playground {
     public static void main(String[] args)
     {
