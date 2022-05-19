@@ -29,6 +29,20 @@ public class Light {
         xCoordPosition = x;
         yCoordPosition = y;
 
+        Tile occupiedTile = map.getGrid()[convertCoordYtoArrY(yCoordPosition)][convertCoordXtoArrX(xCoordPosition)];
+
+        // if(occupiedTile.state == Tile.tileType.HORIZONTAL_WALL
+        // || occupiedTile.state == Tile.tileType.SLANT_LEFT_WALL
+        // || occupiedTile.state == Tile.tileType.SLANT_RIGHT_WALL
+        // )
+        // {
+        //     yCoordPosition--;
+        // }
+        // if(occupiedTile.state == Tile.tileType.VERTICAL_WALL)
+        // {
+        //     xCoordPosition--;
+        // }
+
         grid = map.getGrid();
 
         topIndexLimit = convertArrYtoCoordY(0);
@@ -55,6 +69,8 @@ public class Light {
     Tile[][] getGrid() { return map.getGrid(); }
     int getCoordx(){ return xCoordPosition; }
     int getCoordy(){ return yCoordPosition; }
-    int convertArrXtoCoordX(int arrX) { return arrX - map.getWidth() / 2; }
-    int convertArrYtoCoordY(int arrY) { return arrY - map.getHeight() / 2; }
+    private int convertArrXtoCoordX(int arrX) { return arrX - map.getWidth() / 2; }
+    private int convertArrYtoCoordY(int arrY) { return arrY - map.getHeight() / 2; }
+    private int convertCoordXtoArrX(int coordX) { return (int) (map.getWidth() / 2) + coordX; }
+    private int convertCoordYtoArrY(int coordY) { return (int) (map.getHeight() / 2) - coordY; }
 }

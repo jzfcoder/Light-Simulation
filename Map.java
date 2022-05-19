@@ -35,7 +35,7 @@ public class Map
 
     public Map()
     {
-        this(51, 51);
+        this(101, 101);
     }
 
     /**

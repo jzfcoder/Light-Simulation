@@ -44,6 +44,12 @@ class Main
         {
             System.out.println("Enter Map Dimensions (width & height separated by a space): ");
             in = s.nextLine();
+            if(in.equals("demo"))
+            {
+                runDemo();
+                s.close();
+                System.exit(0);
+            }
             if(in.length() >= 3 && countSpaces(in) == 1)
             {
                 inputCompleted = true;
@@ -198,6 +204,7 @@ class Main
         System.out.println(map.toString());
 
         // get user input for saving to .txt or exiting program
+        inputCompleted = false;
         while(!inputCompleted)
         {
             System.out.println("Would you like to save this to a file? Y/N");
@@ -439,6 +446,63 @@ class Main
             }
         }
         try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
+    }
+
+    /**
+     * runs simple point light realtime demo
+     */
+    public static void runDemo()
+    {
+        JFrame frame = new JFrame();
+        JLabel label = new JLabel();
+        StringBuilder sb = new StringBuilder("<html>");
+        boolean clicked = false;
+        int x = 0;
+        int y = 0;
+        PointLight curLight = new PointLight(map, 25, convertArrXtoCoordX(x), convertArrYtoCoordY(y), 36);
+        map.drawLine(10, 10, -10, 10);
+        map.drawLine(10, 0, 15, -5);
+
+        frame.setSize(map.getWidth() * 8, map.getHeight() * 16);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.add(label);
+
+        frame.setVisible(true);
+
+        while(!clicked)
+        {
+            try { TimeUnit.SECONDS.sleep(1/2); } catch (InterruptedException e) { e.printStackTrace(); }
+            if(x != (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH
+            || y != (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT)
+            {
+                x = (((int) MouseInfo.getPointerInfo().getLocation().getX()) * map.getWidth()) / SCREEN_WIDTH;
+                y = (((int) MouseInfo.getPointerInfo().getLocation().getY()) * map.getWidth()) / SCREEN_HEIGHT;
+
+                sb = new StringBuilder("<html>");
+                map.clear();
+                map.clearLights();
+                
+                curLight.setCoordX(convertArrXtoCoordX(x));
+                curLight.setCoordY(convertArrYtoCoordY(y));
+                map.addLight(curLight);
+                
+                map.simulate();
+
+                sb.append("<table border=0>");
+                for(Tile[] t : map.getGrid())
+                {
+                    sb.append("<tr>");
+                    for(Tile tile : t)
+                    {
+                        sb.append("<td align=center>").append(tile.toString()).append("</td>");
+                    }
+                    sb.append("</tr>");
+                }
+                sb.append("</table>");
+                label.setText(sb.toString());
+            }
+        }
     }
 
     /**
