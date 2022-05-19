@@ -13,11 +13,13 @@ It creates a Map object, and prompts the user to customize the map or add lights
 
 * #### `runPointDemo (int strength, int lightComplexity)`
     * creates a JFrame object that tracks mouse x/y position and translates screenspace relative position into arrayspace relative position for the source of a pointLight
+    * transfers the grid to an html table inside the JFrame Object (this can probably be optimized)
     * takes in a strength and light complexity parameter for the pointLight
 
 * #### `directionalRayDemo (int angle, int width)`
     * creates a JFrame and directional ray object at 0, 0 which tracks mouse x/y position and determines angle relative to screenspace origin. It sets a directional
     ray's angle to angle determined
+    * transfers the grid to an html table inside the JFrame Object (this can probably be optimized)
     * takes in a width and strength parameter for the directionalRay object
 
 * #### `countSpaces`

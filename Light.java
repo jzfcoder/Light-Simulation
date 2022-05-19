@@ -31,17 +31,17 @@ public class Light {
 
         Tile occupiedTile = map.getGrid()[convertCoordYtoArrY(yCoordPosition)][convertCoordXtoArrX(xCoordPosition)];
 
-        // if(occupiedTile.state == Tile.tileType.HORIZONTAL_WALL
-        // || occupiedTile.state == Tile.tileType.SLANT_LEFT_WALL
-        // || occupiedTile.state == Tile.tileType.SLANT_RIGHT_WALL
-        // )
-        // {
-        //     yCoordPosition--;
-        // }
-        // if(occupiedTile.state == Tile.tileType.VERTICAL_WALL)
-        // {
-        //     xCoordPosition--;
-        // }
+        if(occupiedTile.state == Tile.tileType.HORIZONTAL_WALL
+        || occupiedTile.state == Tile.tileType.SLANT_LEFT_WALL
+        || occupiedTile.state == Tile.tileType.SLANT_RIGHT_WALL
+        )
+        {
+            yCoordPosition--;
+        }
+        if(occupiedTile.state == Tile.tileType.VERTICAL_WALL)
+        {
+            xCoordPosition--;
+        }
 
         grid = map.getGrid();
 
