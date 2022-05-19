@@ -110,7 +110,7 @@ It's constructed with two new parameters, `angle` and `width` which define accor
     * loops through each point in `sources` and invokes `drawRay`
 
 * #### `drawRay (int angle, int x, int y, int grid)`
-    * * draws a ray from the given x and y values on the given grid (which is redundantly input and output but no matter)
+    * draws a ray from the given x and y values on the given grid (which is redundantly input and output but no matter)
     * increments x from starting point, calcuating y using `Math.tan`
     * then decrements x from starting point, calculating y the same way
     * the ray continues until the length of the ray reaches `strength` or until it hits an edge or tile with any variation of the `WALL` state
