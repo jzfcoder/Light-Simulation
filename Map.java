@@ -56,6 +56,11 @@ public class Map
     }
 
     /**
+     * clears all lights in lights
+     */
+    public void clearLights() { lights = new ArrayList<Light>(); }
+
+    /**
     * simulates all lights in "lights" ArrayList
     */
     public void simulate()
@@ -108,11 +113,6 @@ public class Map
      * @param l Light is the Light object added to the lights array
      */
     public void addLight(Light l) { lights.add(l); }
-
-    /**
-     * clears all lights in lights
-     */
-    public void clearLights() { lights = new ArrayList<Light>(); }
 
     /**
      * Draws line on grid; sets all tiles within given points to WALL
