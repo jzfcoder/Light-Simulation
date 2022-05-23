@@ -156,7 +156,7 @@ public class InputManager {
     }
     
     /**
-     * If the user doesn't want to run realtime, they are prompted too add lights
+     * If the user doesn't want to run realtime, they are prompted to add lights
      * The function loops until the user decides to finish
      * Once finished, the function prints out the output
     */
