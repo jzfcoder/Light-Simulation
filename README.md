@@ -7,16 +7,35 @@ A simple procedural light simulation for point lights and rays. Customize differ
 Each light is composed of multiple rays, which are drawn from the center point in varying directions. Each ray continues until it reaches the edge of the map, a wall, or the light's maximum strength.
 
 ## Documentation
-### Main
-The Main class handles all user input
+### InputManager 
+The InputManager class handles all user input
 It creates a Map object, and prompts the user to customize the map or add lights
+It includes methods to determine usability of user input, and improves readability of main method
+
+* #### `getMapInput`
+    * Prompts user for map dimensions, and constructs map accordingly
+
+* #### `getWallInput`
+    * Prompts user for two points to add a in between on the map
+    * Loops until user decides to finish
+
+* #### `runRealTime`
+    * Asks user if they want to run project in real time, runs the point or ray demo respectively. Otherwise, returns false
+
+* #### `getLightsAndSimulate`
+    * If the user doesn't want to run realtime, they are prompted too add lights
+    * Function loops until the user decides to finish
+    * Once finished, the function prints out the output
+
+* #### `returnAsFile`
+    * returns simulated map as txt file, if user requests
 
 * #### `runPointDemo (int strength, int lightComplexity)`
     * creates a JFrame object that tracks mouse x/y position and translates screenspace relative position into arrayspace relative position for the source of a pointLight
     * transfers the grid to an html table inside the JFrame Object (this can probably be optimized)
     * takes in a strength and light complexity parameter for the pointLight
 
-* #### `directionalRayDemo (int angle, int width)`
+* #### `runRayDemo (int angle, int width)`
     * creates a JFrame and directional ray object at 0, 0 which tracks mouse x/y position and determines angle relative to screenspace origin. It sets a directional
     ray's angle to angle determined
     * transfers the grid to an html table inside the JFrame Object (this can probably be optimized)

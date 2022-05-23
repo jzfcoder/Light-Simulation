@@ -1,5 +1,5 @@
 /**
- * Directional Ray draws a ray from given point
+ * Directional Ray draws an arrangement of same-angle rays from given point
  * The ray has an angle, and a set width
  * The arrangement of light sources is near perpendicular to angle 
  */

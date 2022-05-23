@@ -34,6 +34,9 @@ public class InputManager {
         map = new Map();
     }
     
+    /**
+     * Prompts user for map dimensions, and constructs map accordingly
+     */
     public void getMapInput()
     {
         // get user input for map dimensions
@@ -70,6 +73,10 @@ public class InputManager {
         }
     }
 
+    /**
+     * Prompts user for two points to add a in between on the map
+     * Loops until user decides to finish
+    */
     public void getWallInput()
     {
         // get user input for walls
@@ -103,6 +110,10 @@ public class InputManager {
         }
     }
 
+    /**
+     * Asks user if they want to run project in real time, runs the point or ray demo respectively
+     * Otherwise, returns false
+    */
     public boolean runRealTime()
     {
         inputCompleted = false;
@@ -144,6 +155,11 @@ public class InputManager {
         return false;
     }
     
+    /**
+     * If the user doesn't want to run realtime, they are prompted too add lights
+     * The function loops until the user decides to finish
+     * Once finished, the function prints out the output
+    */
     public void getLightsAndSimulate()
     {
         inputCompleted = false;
@@ -216,6 +232,9 @@ public class InputManager {
         System.out.println(map.toString());
     }
 
+    /**
+     * returns the simulated map as a file, if user requests
+     */
     public void returnAsFile()
     {
         inputCompleted = false;
